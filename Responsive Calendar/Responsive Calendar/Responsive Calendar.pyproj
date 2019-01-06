@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>7cb88f80-939d-4e28-8b9e-8626f433c844</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>sample.py</StartupFile>
+    <StartupFile>sample\core.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -21,13 +21,23 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="sample.py" />
+    <Compile Include="sample\calendarhelper.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="sample\core.py" />
     <Compile Include="setup.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="test_sample.py">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="docs\" />
+    <Folder Include="sample\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="docs\events.json" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

@@ -1,0 +1,8 @@
+{
+    "events": {
+        "type": "Birthday",
+        "subject": "Vlad Wernscheid",
+        "day": 16,
+        "month": 4
+    }
+}
