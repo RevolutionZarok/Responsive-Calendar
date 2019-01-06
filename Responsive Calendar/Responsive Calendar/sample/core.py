@@ -1,7 +1,6 @@
 import time
 import os
 import calendarhelper
-import calendar
 
 # Set the current day, month and year
 day_now = int(time.strftime("%d"))
@@ -33,32 +32,18 @@ while userInput != "y":
     if userInput == "1":
         Cal.nextDay()
     elif userInput == "2":
-        print("Placeholder")
+        Cal.previewEvents()
     elif userInput == "3":
-        print("Placeholder")
+        Cal.addEvent()
     elif userInput == "4":
-        print("Placeholder")
-    elif userInput == "5":
+        Cal.removeEvent(userInput)
+    elif userInput == "5":              # End of script and update Json file
         print("Are you sure? (y/n)")
-        userInput = input()
+        if input() == "y":
+            Cal.updateEvents()
+            print("Exit successful")
+            time.sleep(.5)
+            os._exit(0)
     else:
         print("\nInvalid input")
-
-    print("\n")
-
-# End of script
-Cal.updateEvents()
-print("Exit successful")
-time.sleep(.5)
-os._exit(0)
-
-# Switch case for the user input
-def user_input_switch(userInput):
-    switcher = {
-        1:"1",
-        2:"2",
-        3:"3",
-        4:"4",
-        5:"5"
-        }
 
