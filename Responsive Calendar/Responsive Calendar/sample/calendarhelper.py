@@ -28,11 +28,10 @@ class Calendarhelper:
         self.year = year
 
         # Load the events from the Json file into the events list
-
         with open("./docs/events.json") as event_data:
             self.events = json.load(event_data)
 
-        print(">>> It's the %02i.%02i.%4i   <<<" % (day, month, year))
+        print(">>> It's the %02i.%02i.%4i   <<<" % (day, month, year))      # TODO Improve visualisation
 
     def nextDay(self):
         if not isleap(self.year):
@@ -143,7 +142,8 @@ def isleap(year):
     return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
 
 # Algorithm to set the next date
-def setNextDay(self, monthDays):                                # TODO Add remove all events that happened today before adavancing
+def setNextDay(self, monthDays):                              
+    removeEventsToday(self)
     if self.day+1 <= monthDays[self.month]:
         self.day += 1
     elif self.day+1 > monthDays[self.month] and self.month != 12:
@@ -175,8 +175,8 @@ def getDay(self, addedDays, monthDays):
         print("Error in getDay algorithm")
     return {"day": giveDay, "month": giveMonth, "year": giveYear}
 
-# prints an alert if there is an event in the next days. 
-# A birthday throws an already 2 weeks prior, a meeting 3 days prior and an appointment the day before
+# Prints an alert if there is an event in the next days 
+# A birthday throws an alert 2 weeks prior, a meeting 3 days prior and an appointment the day before
 def checkAlerts(self, daysInMonth):    
     for event in self.events["events"]:
            if event["type"] == eventTypes[0] and dayDifference(self, event["day"], event["month"], event["year"], daysInMonth) <= 14:
@@ -186,7 +186,7 @@ def checkAlerts(self, daysInMonth):
            elif event["type"] == eventTypes[2] and dayDifference(self, event["day"], event["month"], event["year"], daysInMonth) <= 1:
                printEvent(self, event)
 
-# check if the input has the correct date foramt
+# Check if the date input has the correct format
 def dateInputCheck(self, date):
     while re.search("\d\d.\d\d.\d\d\d\d", date) is None:   
         print("Invalid input. Enter date (xx.xx.xxxx)")
@@ -205,7 +205,7 @@ def dateInputCheck(self, date, type):
     return date
 
 # Calculate the number of days left between a future event and the current day  
-def dayDifference(self, eventDay, eventMonth, eventYear, daysInMonth):                            # TODO change algo if an event is in the next year 
+def dayDifference(self, eventDay, eventMonth, eventYear, daysInMonth):     
     day = self.day
     month = self.month
     year = self.year
@@ -216,7 +216,7 @@ def dayDifference(self, eventDay, eventMonth, eventYear, daysInMonth):          
             newDate = getDay(self, dayDifference, daysInMonth)
             day = newDate["day"]
             month = newDate["month"]
-            if dayDifference > 14:
+            if dayDifference > 14:              # Birthday alerts occur up to 14 days prior
                 break
     else:
         while eventDay != day or eventMonth != month or eventYear != year:
@@ -225,6 +225,8 @@ def dayDifference(self, eventDay, eventMonth, eventYear, daysInMonth):          
             day = newDate["day"]
             month = newDate["month"]
             year = newDate["year"]
+            if dayDifference > 3:               # Meeting alerts occur 3 days prior
+                break
 
     return dayDifference
 
@@ -233,3 +235,13 @@ def printEvent(self, eventData):
         if x is not None:
             print(x, end=" ")                                                         # TODO Improve visualisation
     print("")
+
+# Function to remove all events today
+def removeEventsToday(self):
+    eventsToRemove = []
+    for event in self.events["events"]:
+        if event["day"] == self.day and event["month"] == self.month and event["year"] == self.year:
+            eventsToRemove.append(event)
+
+    for x in eventsToRemove:
+        self.events["events"].remove(x)

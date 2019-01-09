@@ -47,3 +47,17 @@ while userInput != "y":
     else:
         print("\nInvalid input")
 
+
+
+        ''' 
+        TODO Add little script with will fill the event list with a few events at every startup, 
+        because every advance day will from now on remove events from a finished day. It should add
+        mainly appointment and meeting type events, one of each in the next month and one of each one
+        month later.
+
+        TODO Improve visualisation for event and date display (enum for st, nd, rd and th)
+
+        TODO Improve the message for event creation
+
+        TODO Add unit tests
+        '''
